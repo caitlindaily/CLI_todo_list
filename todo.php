@@ -1,7 +1,9 @@
 <?php
 
 // Create array to hold list of todo items
-$items = array();
+$items =[];
+$items[0] = null;
+unset($items[0]);
 
 // The loop!
 do {
