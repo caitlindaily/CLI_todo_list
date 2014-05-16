@@ -5,37 +5,61 @@ $items =[];
 $items[0] = null;
 unset($items[0]);
 
+// List array items formatted for CLI
+function list_items($list)
+{  $result = '';
+    foreach ($list as $key => $value) 
+    {
+    $key++;    
+    $result .= "{$key} {$value}\n";
+    }   return $result;
+}
+    // Return string of list items separated by newlines.
+    // Should be listed [KEY] Value like this:
+    // [1] TODO item 1
+    // [2] TODO item 2 - blah
+    // DO NOT USE ECHO, USE RETURN
+
+//$list_items = list_items($items);
+// Get STDIN, strip whitespace and newlines, 
+// and convert to uppercase if $upper is true
+function get_input($upper = false) //Whatever is typed in is true. Nothing typed in is defaulted to false.
+{   
+    $result = trim(fgets(STDIN));
+    return $upper ? strtoupper($result) : $result;
+}   //when user inputs, if it's true, make sure to capitalize it, not, just give the input
+    //THis will always make sure the input is capital though
+
 // The loop!
 do {
-    // Iterate through list items
-    foreach ($items as $key => $item) {
-        // Display each item and a newline
-        echo "[{$key}] {$item}\n";
-    }
+    // Echo the list produced by the function
+    echo list_items($items);
 
     // Show the menu options
     echo '(N)ew item, (R)emove item, (Q)uit : ';
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
-    $input = trim(fgets(STDIN));
+    $input = get_input(TRUE);
 
     // Check for actionable input
-    if ($input == 'N' || $input == 'n') {
+    if ($input == 'N') {
         // Ask for entry
         echo 'Enter item: ';
         // Add entry to list array
-        $items[] = trim(fgets(STDIN));
-    } elseif ($input == 'R' || $input == 'r') {
+        $items[] = get_input();
+    } elseif ($input == 'R') {
         // Remove which item?
         echo 'Enter item number to remove: ';
         // Get array key
-        $key = trim(fgets(STDIN));
+        $key = get_input();
         // Remove from array
+        $key= $key - 1;
         unset($items[$key]);
     }
+    $items = array_values($items);
 // Exit when input is (Q)uit
-} while ($input != 'Q' && $input != 'q');
+} while ($input != 'Q');
 
 // Say Goodbye!
 echo "Goodbye!\n";
