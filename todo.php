@@ -38,7 +38,7 @@ function sort_items($items) {
         if ($input == 'A'){
             asort($items);
         }elseif($input == 'Z'){
-            rsort($items); 
+            arsort($items); 
         }elseif($input == 'O') {
             ksort($items);
         }elseif ($input == 'R') {
