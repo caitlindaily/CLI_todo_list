@@ -42,14 +42,35 @@ function sort_items($items) {
     return $items;
 }
 //==================================================================
+// function open() //Use if you want to use default file 'list.txt'
+// {
+//     $filename = '/vagrant/todo_list/data/list.txt';
+//     $filesize = filesize($filename);
+//     $read = fopen($filename, 'r');
+//     $fileString = fread($read, $filesize);
+//     $file = explode("\n", $fileString);
+//         return $file;
+//         fclose($file);
+//}
+function open($fileName)//Use to import from typed in file 
+{   
+    $filename = $fileName;
+    $filesize = filesize($filename);
+    $read = fopen($filename, 'r');
+    $fileString = fread($read, $filesize);
+    $file = explode("\n", $fileString);
+        return $file;
+        fclose($file);
+}
 
+//===================================================================
 do 
 {
     // Echo the list produced by the function
     echo list_items($items);
 
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
+    echo '(N)ew item, (R)emove item, (S)ort, (O)pen, (Q)uit : ';
 
     // Get the input from user
     $input = get_input(TRUE);
@@ -73,20 +94,24 @@ do
         }   //Puts item at end of list
         
     } elseif ($input == 'R') {
-        // Remove which item?
         echo 'Enter item number to remove: ';
         // Get array key
         $key = get_input();
         // Remove from array
         $key= $key - 1;
         unset($items[$key]);
+        $items = array_values($items);
     } elseif ($input == 'S') {
         $items = sort_items($items);
-        // print_r($items);
     } elseif ($input == 'F') {
-        array_shift($items)
+        array_shift($items);
     } elseif ($input == 'L') {
-        array_pop($items)
+        array_pop($items);
+    } elseif ($input == 'O') {
+        echo "File to use: ";
+        $file = get_input();
+        $content = open($file);
+        $items = array_merge($items,$content);
     }
   
 // Exit when input is (Q)uit
